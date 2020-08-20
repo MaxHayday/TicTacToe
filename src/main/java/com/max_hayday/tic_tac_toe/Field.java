@@ -1,11 +1,7 @@
 package com.max_hayday.tic_tac_toe;
 
-import static com.max_hayday.tic_tac_toe.GameLogic.CPUCHAR;
-import static com.max_hayday.tic_tac_toe.GameLogic.PLAYERCHAR;
-
 public class Field {
     protected char[] field;
-
 
     Field() {
         field = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};

@@ -11,12 +11,16 @@ public class GameLogic {
     private Random random = new Random();
     private Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Using variable flag, we can start looking for a winner.
+     */
     private int flag = 0;
+
     private int min = 1;
     private int max = 9;
     private int cpuPos;
     private int userPos;
-    private int player = 1;
+    private int variableWitchTelUsWhoIsWin = 1;
 
     public GameLogic() {
         f = new Field();
@@ -33,7 +37,7 @@ public class GameLogic {
                 if (flag == 1) break;
                 do {
                     cpuPos = getPCInput();
-                    if (player == 10) break;
+                    if (variableWitchTelUsWhoIsWin == 10) break;
                 }
                 while (!isPosAvailable(cpuPos, CPUCHAR));
             } else
@@ -42,27 +46,26 @@ public class GameLogic {
         } while (flag != 1 && flag != -1);
         f.showField();
         if (flag == 1) {
-            if (((player % 2) + 1) == 1)
+            if (((variableWitchTelUsWhoIsWin % 2) + 1) == 1)
                 System.out.printf("CONGRATULATIONS, YOU WIN ! ! !");
-
             else
                 System.out.println("SORRY, YOU LOSE ( ( ( ");
         } else
             System.out.println("DRAW");
     }
 
-    public int getUserInput() {
+    private int getUserInput() {
         return scanner.nextInt();
     }
 
-    public int getPCInput() {
+    private int getPCInput() {
         return random.nextInt((max - min) + 1) + min;
     }
 
-    public boolean isPosAvailable(int pos, char c) {
+    private boolean isPosAvailable(int pos, char c) {
         if (f.field[pos] != CPUCHAR && f.field[pos] != PLAYERCHAR) {
             f.save(pos, c);
-            player++;
+            variableWitchTelUsWhoIsWin++;
             return true;
         } else {
             return false;
