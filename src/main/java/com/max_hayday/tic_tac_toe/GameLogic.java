@@ -3,11 +3,10 @@ package com.max_hayday.tic_tac_toe;
 import java.util.Random;
 import java.util.Scanner;
 
-import static com.max_hayday.tic_tac_toe.Field.CPUCHAR;
-import static com.max_hayday.tic_tac_toe.Field.PLAYERCHAR;
 
 public class GameLogic {
-
+    public static final char CPUCHAR = 'O';
+    public static final char PLAYERCHAR = 'Y';
     private Field f;
     private Random random = new Random();
     private Scanner scanner = new Scanner(System.in);
@@ -16,6 +15,7 @@ public class GameLogic {
     private int min = 1;
     private int max = 9;
     private int cpuPos;
+    private int userPos;
     private int player = 1;
 
     public GameLogic() {
@@ -27,20 +27,15 @@ public class GameLogic {
         do {
             f.showField();
             System.out.println("Please choose number from 1 to 9:");
-            int pos = scanner.nextInt();
-            cpuPos = random.nextInt((max - min) + 1) + min;
-            if (isPosAvailable(pos)) {
-                f.save(pos, PLAYERCHAR);
-                player++;
+            userPos = getUserInput();
+            if (isPosAvailable(userPos, PLAYERCHAR)) {
                 flag = f.checkWinner();
                 if (flag == 1) break;
                 do {
-                    cpuPos = random.nextInt((max - min) + 1) + min;
+                    cpuPos = getPCInput();
                     if (player == 10) break;
                 }
-                while (!isPosAvailable(cpuPos));
-                f.save(cpuPos, CPUCHAR);
-                player++;
+                while (!isPosAvailable(cpuPos, CPUCHAR));
             } else
                 System.out.println("Sorry the row is already marked. Choose correct number");
             flag = f.checkWinner();
@@ -51,14 +46,26 @@ public class GameLogic {
                 System.out.printf("CONGRATULATIONS, YOU WIN ! ! !");
 
             else
-                System.out.println("SORRY, TOU LOSE ( ( ( ");
+                System.out.println("SORRY, YOU LOSE ( ( ( ");
         } else
             System.out.println("DRAW");
     }
 
-    public boolean isPosAvailable(int pos) {
-        if (f.field[pos] != CPUCHAR && f.field[pos] != PLAYERCHAR)
+    public int getUserInput() {
+        return scanner.nextInt();
+    }
+
+    public int getPCInput() {
+        return random.nextInt((max - min) + 1) + min;
+    }
+
+    public boolean isPosAvailable(int pos, char c) {
+        if (f.field[pos] != CPUCHAR && f.field[pos] != PLAYERCHAR) {
+            f.save(pos, c);
+            player++;
             return true;
-        else return false;
+        } else {
+            return false;
+        }
     }
 }
